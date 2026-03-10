@@ -1,5 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @import "tailwindcss";
-
 
 :root {
   --background: #ffffff;
@@ -11,4 +11,12 @@
   --color-parafos: #E0E0E0;
   --color-ArribaYBajo: #2FEBD8;
   --color-medio: #5911D6;
+}
+
+hr{
+  width: 50%;
+}
+
+body{
+  font-family: 'Open Sans', sans-serif;
 }
