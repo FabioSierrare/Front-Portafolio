@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme {
+  --color-Links: #F8F8F8;
+  --color-parafos: #E0E0E0;
+  --color-ArribaYBajo: #2FEBD8;
+  --color-medio: #5911D6;
+}
