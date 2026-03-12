@@ -8,8 +8,9 @@
 
 @theme {
   --color-Links: #F8F8F8;
-  --color-parafos: #E0E0E0;
-  --color-ArribaYBajo: #2FEBD8;
+  --color-prf: #F7F7F7;
+  --color-Arriba: #2FEBD8;
+  --color-Abajo: #540CE1;
   --color-medio: #5911D6;
 }
 
