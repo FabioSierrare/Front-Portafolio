@@ -4,8 +4,19 @@ import { useState, useEffect } from "react";
 
 export default function page({ children }) {
   const logo = "< FABIO SIERRA />";
-  const codigo = "Ver codigo </>"
+  const codigo = "Ver codigo </>";
   const images = ["/img/game.jpg", "/img/game2.jpg", "/img/games3.jpg"];
+  const [scroll, setScroll] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScroll(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const [index, setIndex] = useState(0);
 
@@ -18,9 +29,10 @@ export default function page({ children }) {
   }, []);
 
   return (
-    <div className="w-full mx-auto p-5">
+    <div className="w-full mx-auto px-5">
       {/*Menu de navegación */}
-      <nav className="sticky top-0 z-2 flex p-5 justify-center">
+      <nav className={`sticky top-0 z-50 flex p-5 justify-center transition-all duration-300 
+      ${scroll ? "bg-black/80 backdrop-blur-md shadow-lg rounded-2xl" : "bg-transparent"}`}>
         {/* logo */}
         <div className="flex text-white text-2xl">
           <h1>{logo}</h1>
@@ -117,7 +129,7 @@ export default function page({ children }) {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 640 640"
-              className="h"
+              className="w-10 h-10"
             >
               <path
                 fill="rgb(255, 255, 255)"
@@ -185,12 +197,16 @@ export default function page({ children }) {
 
           {/* Información */}
           <div className="flex-1 mr-5 flex flex-col mt-4">
-            <h3 className="text-3xl text-[#E2E0E6] mb-2 font-semibold">
+            <h3 className="text-3xl text-[#F2F2F2] mb-2 font-semibold">
               TITULO LARGO PARA COMPROBAR
             </h3>
 
             <p className="text-prf text-xl font-light">
-              Tu segundo hogar, con aroma a café recién hecho." En Coffe Web, creemos que los mejores momentos suceden alrededor de una taza. Ven a disfrutar de un ambiente cálido, repostería artesanal y el grano más fresco de la región. El refugio perfecto para tu rutina diaria.
+              Tu segundo hogar, con aroma a café recién hecho." En Coffe Web,
+              creemos que los mejores momentos suceden alrededor de una taza.
+              Ven a disfrutar de un ambiente cálido, repostería artesanal y el
+              grano más fresco de la región. El refugio perfecto para tu rutina
+              diaria.
             </p>
 
             <div className="mt-3">
@@ -216,33 +232,118 @@ export default function page({ children }) {
       <div className="mt-13 text-white">
         <h2 className="text-4xl text-white mb-5 font-bold">SKILLS</h2>
         <div className="border border-white rounded-2xl">
-            {/* Backend */}
-            <div className="text-center p-5 border border-white rounded-2xl mb-5">
-                <h3 className="text-3xl font-bold mb-3">BACKEND</h3>
-                <div className="flex">
-                  <img src="./icons/C.png" alt="C#" className="w-25 h-auto mr-5"/>
-                  <img src="./icons/NET.png" alt="NET" className="w-25 h-auto mr-5" />
-                  <img src="./icons/SQLServer.png" alt="SQL SERVER" className="w-25 h-auto mr-5" />
-                  <img src="./icons/PostGresSQL.png" alt="" className="w-25 h-auto" />
-                </div>
+          {/* Backend */}
+          <div className="text-center p-5 border border-white rounded-2xl mb-5">
+            <h3 className="text-3xl font-bold mb-3">BACKEND</h3>
+            <div className="flex">
+              <img src="./icons/C.png" alt="C#" className="w-25 h-auto mr-5" />
+              <img
+                src="./icons/NET.png"
+                alt="NET"
+                className="w-25 h-auto mr-5"
+              />
+              <img
+                src="./icons/SQLServer.png"
+                alt="SQL SERVER"
+                className="w-25 h-auto mr-5"
+              />
+              <img
+                src="./icons/PostGresSQL.png"
+                alt=""
+                className="w-25 h-auto"
+              />
             </div>
+          </div>
 
-            <div className="text-center p-5 border border-white rounded-2xl mb-5">
-                <h3 className="text-2xl font-semibold mb-3">FRONTEND</h3>
-                <div className="flex">
-                  <img src="./icons/Netxjs.png" alt="Next js" className="w-20 h-auto mr-5"/>
-                  <img src="./icons/React.png" alt="React" className="w-20 h-auto" />
-                </div>
+          <div className="text-center p-5 border border-white rounded-2xl mb-5">
+            <h3 className="text-2xl font-semibold mb-3">FRONTEND</h3>
+            <div className="flex">
+              <img
+                src="./icons/Netxjs.png"
+                alt="Next js"
+                className="w-20 h-auto mr-5"
+              />
+              <img
+                src="./icons/React.png"
+                alt="React"
+                className="w-20 h-auto"
+              />
             </div>
+          </div>
 
-            <div className="text-center p-5 border border-white rounded-2xl">
-                <h3 className="text-2xl font-semibold mb-3">TOOLS</h3>
-                <div className="flex">
-                  <img src="./icons/Git.png" alt="Git" className="w-20 h-auto mr-5"/>
-                  <img src="./icons/GitHub.png" alt="GitHub" className="w-20 h-auto" />
-                </div>
+          <div className="text-center p-5 border border-white rounded-2xl">
+            <h3 className="text-2xl font-semibold mb-3">TOOLS</h3>
+            <div className="flex">
+              <img
+                src="./icons/Git.png"
+                alt="Git"
+                className="w-20 h-auto mr-5"
+              />
+              <img
+                src="./icons/GitHub.png"
+                alt="GitHub"
+                className="w-20 h-auto"
+              />
             </div>
+          </div>
         </div>
+      </div>
+
+      {/* Experiencía */}
+      <div className="mt-13">
+        <h2 className="text-4xl text-white mb-5 font-bold">Experiencía</h2>
+        <div className="w-full bg-[#F2F2F2] flex rounded-2xl">
+          <div className="max-w-[500px] w-full mr-5">
+            <img
+              src="./img/fondoExperiencia.png"
+              alt="Fondo experiencia"
+              className="w-full h-full object-cover rounded-l-2xl"
+            />
+          </div>
+          <div className="flex-1 pt-5 pr-5">
+            <div className="mb-5">
+              <h3 className="flex items-center text-2xl">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 640 640"
+                  className="w-15 mr-3"
+                >
+                  <path
+                    fill="rgb(136, 70, 228)"
+                    d="M264 112L376 112C380.4 112 384 115.6 384 120L384 160L256 160L256 120C256 115.6 259.6 112 264 112zM208 120L208 160L128 160C92.7 160 64 188.7 64 224L64 320L576 320L576 224C576 188.7 547.3 160 512 160L432 160L432 120C432 89.1 406.9 64 376 64L264 64C233.1 64 208 89.1 208 120zM576 368L384 368L384 384C384 401.7 369.7 416 352 416L288 416C270.3 416 256 401.7 256 384L256 368L64 368L64 480C64 515.3 92.7 544 128 544L512 544C547.3 544 576 515.3 576 480L576 368z"
+                  />
+                </svg>{" "}
+                Desarrollador de Software (
+                <span className="text-Abajo">Prácticas SENA)</span>
+              </h3>
+              <p className="text-Abajo text-xl ml-18 mb-3">
+                Universidad Colegio Mayor de Cundinamarca
+              </p>
+              <p className="text-xl ml-18">JULIO 2025 - ENERO 2026</p>
+            </div>
+            <div className="w-full rounded-2xl bg-[#E0E0E0] p-8 mb-5">
+              <p className="text-Abajo mb-3">
+                Desarrollo de un sistema de gestión y asignación de turnos para
+                consultorios juridicos.
+              </p>
+              <p className="text-Abajo mb-3">
+                Implementación de backend en .NET con conexión a base de datos
+              </p>
+              <p className="text-Abajo mb-3">Automatización de notificaciones por correo electronico</p>
+              <p className="text-Abajo">
+                Optimización del proceso de asignación de turnos, reduciendo
+                tiempos de gestión manual
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Educación */}
+      <div className="my-13 text-white">
+        <h2 className="text-4xl text-white mb-5 font-bold">EDUCACIÓN</h2>
+        <p className="text-2xl mb-5">🎓 Tecnólogo en Análisis y Desarrollo de Software - SENA 2023 - 2026</p>
+        <p className="text-2xl">🔐 Introducción a ciberseguridad y pentesting - TALENTO TECH 2026</p>
       </div>
     </div>
   );
