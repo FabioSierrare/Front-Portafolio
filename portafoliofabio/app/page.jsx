@@ -1,11 +1,13 @@
 "use client";
 import "./globals.css";
+import FetchData from "@/services/Api";
+import Proyecto from "@/components/proyecto/proyectoInfo";
 import { useState, useEffect } from "react";
 
-export default function page({ children }) {
+export default function page() {
+  const pro = FetchData("/api/Proyecto/GetProyectoInfolimit");
   const logo = "< FABIO SIERRA />";
-  const codigo = "Ver codigo </>";
-  const images = ["/img/game.jpg", "/img/game2.jpg", "/img/games3.jpg"];
+  const [images, setImg] = useState();
   const [scroll, setScroll] = useState(false);
 
   useEffect(() => {
@@ -18,21 +20,37 @@ export default function page({ children }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (!pro) return;
+
+    const img = pro.map((i) => ({
+      titulo: i.titulo,
+      image: i.urlImagen,
+      descripcion: i.descripcion,
+    }));
+
+    setImg(img);
+  }, [pro]);
+
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+    if (!images) return;
+
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % images.length);
     }, 5000); // cambia cada 3 segundos
 
     return () => clearInterval(interval);
-  }, []);
+  }, [images]);
 
   return (
     <div className="w-full mx-auto px-5">
       {/*Menu de navegación */}
-      <nav className={`sticky top-0 z-50 flex p-5 justify-center transition-all duration-300 
-      ${scroll ? "bg-black/80 backdrop-blur-md shadow-lg rounded-2xl" : "bg-transparent"}`}>
+      <nav
+        className={`sticky top-0 z-50 flex p-5 justify-center transition-all duration-300
+      ${scroll ? "bg-black/80 backdrop-blur-md shadow-lg rounded-2xl" : "bg-transparent"}`}
+      >
         {/* logo */}
         <div className="flex text-white text-2xl">
           <h1>{logo}</h1>
@@ -63,26 +81,32 @@ export default function page({ children }) {
 
       {/* Carrusel */}
       <div className="relative w-full h-[500px] overflow-hidden rounded-xl border border-white">
-        <img
-          src={images[index]}
-          alt="carousel"
-          className="w-full h-full object-cover transition-all duration-700"
-        />
+        {images ? (
+          <img
+            src={images[index].image}
+            alt="carousel"
+            className="w-full h-full object-cover transition-all duration-700"
+          />
+        ) : (
+          <img
+            src="/public/img/game.jpg"
+            alt="carousel"
+            className="w-full h-full object-cover transition-all duration-700"
+          />
+        )}
 
         <div className="absolute inset-0 flex items-center">
           <div className="ml-15 pr-80 my-auto">
             <p className="text-prf mt-21">
               <span className="text-white font-bold">
-                REGISTRO TURNOS CONSULTORIO JURIDICO:
+                {images ? images[index].titulo : ""}
               </span>{" "}
-              Sistema desarrollado para optimizar la asignación y gestión de
-              turnos de estudiantes de una universidad de Derecho, encargados de
-              brindar consultorías jurídicas a distintos usuarios.
+              {images ? images[index].descripcion : ""}
             </p>
 
-            <button className="w-48 py-3 mt-7 text-white bg-gradient-to-b from-Arriba via-medio to-Abajo rounded-2xl cursor-pointer">
+            {/* <button className="w-48 py-3 mt-7 text-white bg-gradient-to-b from-Arriba via-medio to-Abajo rounded-2xl cursor-pointer">
               VER MÁS
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -184,48 +208,18 @@ export default function page({ children }) {
       </div>
 
       {/* Proyectos */}
-      <div className="mt-13">
-        <h2 className="text-4xl text-white mb-5 font-bold">PROYECTOS</h2>
-        <div className="flex">
-          {/* Imagen */}
-          <div className="w-1/3 h-[400px] mr-7">
-            <img
-              src="./img/game.jpg"
-              className="w-full h-full object-cover rounded-l-3xl"
-            />
+      <h2 className="text-4xl text-white mb-8 font-bold mt-13">
+        Mis Proyectos
+      </h2>
+      {pro ? (
+        pro.map((info, index) => (
+          <div key={index}>
+            <Proyecto info={info} />
           </div>
-
-          {/* Información */}
-          <div className="flex-1 mr-5 flex flex-col mt-4">
-            <h3 className="text-3xl text-[#F2F2F2] mb-2 font-semibold">
-              TITULO LARGO PARA COMPROBAR
-            </h3>
-
-            <p className="text-prf text-xl font-light">
-              Tu segundo hogar, con aroma a café recién hecho." En Coffe Web,
-              creemos que los mejores momentos suceden alrededor de una taza.
-              Ven a disfrutar de un ambiente cálido, repostería artesanal y el
-              grano más fresco de la región. El refugio perfecto para tu rutina
-              diaria.
-            </p>
-
-            <div className="mt-3">
-              <button className="bg-white rounded-2xl flex p-2 items-center text-sm">
-                <img src="./icons/PostGresSQL.png" className="w-7 mr-2" />
-                PostgreSQL
-              </button>
-            </div>
-
-            {/* Botón abajo */}
-            <div className="mt-auto">
-              <button className="bg-white rounded-2xl flex p-2 items-center text-sm">
-                <img src="./icons/GitHub.png" className="w-8 mr-2" />
-                {codigo}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+        ))
+      ) : (
+        <h3>No hay proyectos publicados</h3>
+      )}
 
       {/* Skills */}
 
@@ -329,7 +323,9 @@ export default function page({ children }) {
               <p className="text-Abajo mb-3">
                 Implementación de backend en .NET con conexión a base de datos
               </p>
-              <p className="text-Abajo mb-3">Automatización de notificaciones por correo electronico</p>
+              <p className="text-Abajo mb-3">
+                Automatización de notificaciones por correo electronico
+              </p>
               <p className="text-Abajo">
                 Optimización del proceso de asignación de turnos, reduciendo
                 tiempos de gestión manual
@@ -342,9 +338,19 @@ export default function page({ children }) {
       {/* Educación */}
       <div className="my-13 text-white">
         <h2 className="text-4xl text-white mb-5 font-bold">EDUCACIÓN</h2>
-        <p className="text-2xl mb-5">🎓 Tecnólogo en Análisis y Desarrollo de Software - SENA 2023 - 2026</p>
-        <p className="text-2xl">🔐 Introducción a ciberseguridad y pentesting - TALENTO TECH 2026</p>
+        <p className="text-2xl mb-5">
+          🎓 Tecnólogo en Análisis y Desarrollo de Software - SENA 2023 - 2026
+        </p>
+        <p className="text-2xl">
+          🔐 Introducción a ciberseguridad y pentesting - TALENTO TECH 2026
+        </p>
       </div>
+
+      {/* Pie de pagina */}
+      <footer className="w-full text-center mt-13 p-5 text-white text-xl">
+        <p>© 2026 Fabio Sierra</p>
+        <p>Desarrollador de Software</p>
+      </footer>
     </div>
   );
 }
